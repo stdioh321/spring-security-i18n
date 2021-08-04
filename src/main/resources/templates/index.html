@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{_base :: header('Index')}"></head>
+<body>
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-12">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a th:href="@{/login}">Login</a>
+                </li>
+                <li class="list-group-item">
+                    <a th:href="@{/me}">me</a>
+                </li>
+                <li class="list-group item">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="card-title" th:text="#{lang}"></div>
+                            <select name="" id="lang" class="form-control mt-1">
+                                <option value="">EN</option>
+                                <option value="es">ES</option>
+                                <option value="pt">PT</option>
+                                <option value="pt-br">PT-BR</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var lang = document.querySelector("#lang");
+    window.onload = function () {
+        var lang = new URLSearchParams(location.search).get("lang");
+        if (!lang || lang.length < 1) return;
+        var opt = [].find.call(document.querySelectorAll("#lang > option"), (el) => {
+            return el.value == lang;
+        });
+        opt.selected = true;
+    };
+
+    lang.addEventListener("change", (ev) => {
+        var value = ev.target.value;
+        window.location = "/?lang=" + value;
+    });
+</script>
+</body>
+</html>

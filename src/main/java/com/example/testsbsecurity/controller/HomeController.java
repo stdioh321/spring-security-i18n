@@ -34,28 +34,22 @@ public class HomeController {
     private MessageSource messageSource;
 
 
-    @GetMapping("/")
+    @GetMapping("/me")
     @ResponseBody
     public ResponseEntity home() {
 //        var principal = SecurityContextHolder.getContext().getAuthentication();
 //        if(principal.getClass() ==CustomUserDetails.class)
-        var lista = new ArrayList<>();
-        lista.add(userRepository.findAll());
-        lista.add(authorityRepository.findAll());
+//        var lista = new ArrayList<>();
+//        lista.add(userRepository.findAll());
+//        lista.add(authorityRepository.findAll());
 
         return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
     }
 
-    @GetMapping(value = "/user", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping("/tmp")
     @ResponseBody
-    public String getUser() {
-        return ("<h1>Hello USER!</h1>");
-    }
-
-    @GetMapping(value = "/admin", produces = MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String getAdmin() {
-        return ("<h1>Hello ADMIN!</h1>");
+    public String tmp() {
+        return "TMP";
     }
 
 }

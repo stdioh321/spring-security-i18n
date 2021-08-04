@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
+<head th:replace="~{_base :: header('Login')}"></head>
 <body>
-<form action="/my-login" method="POST" th:object="${loginForm}">
-    Username: <input type="text" th:field="*{username}"/><br>
-    <div th:errors="*{username}"></div>
-    Password: <input type="password" name="password"/><br>
-    <div th:errors="*{password}"></div>
-    <button type="submit">Send</button>
-    <div>
-        <div th:each="err : ${errors}">
-            <div th:text="${err}"></div>
+<div class="container">
+    <div class="row mt-1">
+        <div class="col-md-8 offset-md-2">
+            <div class="card " style="background-color: antiquewhite">
+                <div class="card-body">
+                    <div class="row col-12"><h1>Login</h1></div>
+                    <form th:action="@{/login}" method="POST" th:object="${loginForm}">
+                        <div class="form-group row">
+                            <label for="username" class="col-md-3">Username</label>
+                            <div class="col-md">
+                                <input type="text" th:field="*{username}" class="form-control"/>
+                            </div>
+                            <div class="col-12 alert alert-danger mt-1" th:errors="*{username}">
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-md-3">Password</label>
+                            <div class="col-md">
+                                <input type="password" name="password" id="password" class="form-control"/>
+                            </div>
+                            <div class="col-12 alert alert-danger mt-1" th:errors="*{password}"></div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="offset-md-8 col-md">
+                                <button type="send" class="btn btn-lg btn-block btn-primary">Send</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12 " th:each="err : ${errors}">
+                                <div class="alert alert-danger" th:text="${err}"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h1 class="mt-2">User/Pass: <span class="badge badge-primary">test</span></h1>
         </div>
     </div>
-</form>
+
+</div>
 </body>
 </html>

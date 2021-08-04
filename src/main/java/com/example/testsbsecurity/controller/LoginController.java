@@ -1,9 +1,11 @@
 package com.example.testsbsecurity.controller;
 
+import com.example.testsbsecurity.config.locale.SmartLocaleResolver;
 import com.example.testsbsecurity.dto.LoginForm;
 import com.example.testsbsecurity.model.CustomUserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
@@ -19,11 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collections;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/login")
 public class LoginController {
     @Autowired
     private MessageSource messageSource;
@@ -34,13 +37,16 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authManager;
 
-    @GetMapping("login")
+    @Autowired
+    private SmartLocaleResolver smartLocaleResolver;
+
+    @GetMapping
     public String index(LoginForm loginForm) {
         return "login";
     }
 
-    @PostMapping("my-login")
-    public String tryLogin(@Valid LoginForm loginForm, BindingResult result, Model model) {
+    @PostMapping
+    public String tryLogin(@Valid LoginForm loginForm, BindingResult result, Model model, HttpServletRequest req) {
         if (result.hasErrors()) {
             return "login";
         }
@@ -50,10 +56,10 @@ public class LoginController {
             auth = authManager.authenticate(userAuth);
             var user = (CustomUserDetails) auth.getPrincipal();
             SecurityContextHolder.getContext().setAuthentication(user.toUserPassAuthToken());
-            return "redirect:/";
+            return "redirect:/me";
         } catch (Exception ex) {
-
-            model.addAttribute("errors", Collections.singletonList(messageSource.getMessage("invalid.credentias", null, LocaleContextHolder.getLocale())));
+            var currLocale = LocaleContextHolder.getLocale();
+            model.addAttribute("errors", Collections.singletonList(messageSource.getMessage("invalid.credentials", null, currLocale)));
             return "login";
         }
     }

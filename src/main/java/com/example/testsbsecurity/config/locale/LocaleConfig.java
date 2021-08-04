@@ -36,10 +36,10 @@ public class LocaleConfig implements WebMvcConfigurer {
         return new SmartLocaleResolver();
     }
 
-    @Bean
-    public MessageSourceAccessor getMessageSourceAccessor(final MessageSource messageSource) {
-        return new MessageSourceAccessor(messageSource, Locale.US);
-    }
+//    @Bean
+//    public MessageSourceAccessor getMessageSourceAccessor(final MessageSource messageSource) {
+//        return new MessageSourceAccessor(messageSource, Locale.US);
+//    }
 
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
